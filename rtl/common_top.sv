@@ -1,24 +1,33 @@
 module common_top
 # (
-    parameter clk_mhz      = 50,
-              w_key        = 4,
-              w_sw         = 8,
-              w_led        = 8,
-              w_digit      = 8,
-              w_gpio       = 100,
-    parameter BAUD_RATE    = 115200,
-    parameter FIFO_EA      = 4,
-    parameter BYTE_WIDTH   = 4,
-    parameter SYMB_START   = "<",
-    parameter SYMB_DELIM_A = "|",
-    parameter SYMB_DELIM_B = "/",
-    parameter SYMB_END     = ">",
-    parameter expWidth     = 8,
-    parameter sigWidth     = 24,
-    parameter FLOAT_SIZE   = expWidth + sigWidth,
-    parameter VAR_WIDTH    = FLOAT_SIZE / 8,
-    parameter VAR_LENG     = FLOAT_SIZE / VAR_WIDTH,
-    parameter VAR_WIDTH_W  = $clog2(VAR_WIDTH) + 1
+    parameter clk_mhz = 50,
+        w_key         = 4,
+        w_sw          = 8,
+        w_led         = 8,
+        w_digit       = 8,
+        w_gpio        = 100,
+        
+        screen_width  = 640,
+        screen_height = 480,
+        w_red         = 4,
+        w_green       = 4,
+        w_blue        = 4,
+        w_x           = $clog2 ( screen_width  ),
+        w_y           = $clog2 ( screen_height ),
+
+        BAUD_RATE     = 115200,
+        FIFO_EA       = 4,
+        BYTE_WIDTH    = 4,
+        SYMB_START    = "<",
+        SYMB_DELIM_A  = "|",
+        SYMB_DELIM_B  = "/",
+        SYMB_END      = ">",
+        expWidth      = 8,
+        sigWidth      = 24,
+        FLOAT_SIZE    = expWidth + sigWidth,
+        VAR_WIDTH     = FLOAT_SIZE / 8,
+        VAR_LENG      = FLOAT_SIZE / VAR_WIDTH,
+        VAR_WIDTH_W   = $clog2(VAR_WIDTH) + 1
 )
 (
     input                        clk,
@@ -36,20 +45,22 @@ module common_top
     output logic [          7:0] abcdefgh,
     output logic [w_digit - 1:0] digit,
 
-    // VGA
+    // Graphics
 
-    output logic                 vsync,
-    output logic                 hsync,
-    output logic [          3:0] red,
-    output logic [          3:0] green,
-    output logic [          3:0] blue,
+    input        [w_x     - 1:0] x,
+    input        [w_y     - 1:0] y,
+
+    output logic [w_red   - 1:0] red,
+    output logic [w_green - 1:0] green,
+    output logic [w_blue  - 1:0] blue,
+
+    // Microphone, sound output and UART
+
+    input        [         23:0] mic,
+    output       [         15:0] sound,
 
     input                        uart_rx,
     output                       uart_tx,
-
-    input                        mic_ready,
-    input        [         23:0] mic,
-    output       [         15:0] sound,
 
     // General-purpose Input/Output
 
