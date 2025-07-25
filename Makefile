@@ -1,4 +1,4 @@
-.PHONY: clean simulate quartus synth upload
+.PHONY: install clean simulate quartus synth upload
 
 VFLAGS = -O3 --x-assign fast --x-initial fast --noassert
 SDL_CFLAGS = `sdl2-config --cflags`
@@ -13,14 +13,16 @@ help:
 	@true
 
 # ------------------------------------------------------------------------------
-# Generation and project creation
+# Installation
 # ------------------------------------------------------------------------------
 
-gen_font:
-	python3 scripts/bdf_font_to_hex_mem.py
+generate:
+	bash include/generate_hardfloat.sh
 
-gen:
-	scripts/run_scripts.bash
+install: generate
+	python3 -m venv .venv
+	source .venv/bin/activate
+	pip3 install -r requirements.txt
 
 # ------------------------------------------------------------------------------
 # Simulation
@@ -45,8 +47,8 @@ sim-clean:
 # ------------------------------------------------------------------------------
 
 CABLE_NAME   ?= "USB-Blaster"
-PROJECT_DIR  ?= ./fpga/labs/uart/run
-PROJECT_NAME ?= "fpga_project"
+PROJECT_DIR  ?= ./synth/fpga/rzrd
+PROJECT_NAME ?= "board_specific"
 
 QUARTUS     := cd $(PROJECT_DIR) && quartus
 QUARTUS_SH  := cd $(PROJECT_DIR) && quartus_sh

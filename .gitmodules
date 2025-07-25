@@ -1,6 +1,9 @@
 [submodule "HardFloat"]
-	path = HardFloat
+	path = include/HardFloat
 	url = https://github.com/drom/HardFloat.git
 [submodule "FPGA-UART"]
-	path = FPGA-UART
+	path = include/FPGA-UART
 	url = https://github.com/WangXuan95/FPGA-UART.git
+[submodule "include/basics-graphics-music"]
+	path = include/basics-graphics-music
+	url = https://github.com/yuri-panchul/basics-graphics-music
