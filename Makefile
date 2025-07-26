@@ -1,4 +1,4 @@
-.PHONY: install clean simulate quartus synth upload
+.PHONY: install clean sim simulate quartus synth upload
 
 VFLAGS = -O3 --x-assign fast --x-initial fast --noassert
 SDL_CFLAGS = `sdl2-config --cflags`
@@ -27,6 +27,9 @@ install: generate
 # ------------------------------------------------------------------------------
 # Simulation
 # ------------------------------------------------------------------------------
+
+sim:
+	python3 sim/cocotb/run.py
 
 simulate: sim-clean build run
 

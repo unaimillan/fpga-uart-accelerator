@@ -213,6 +213,6 @@ __marimo__/
 /synth/fpga/**/*.bak
 /synth/fpga/**/*.qws
 
-/sim/verilator/output_files/
+/sim/*/output_files/
 
 include/hardfloat.sv

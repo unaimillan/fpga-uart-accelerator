@@ -5,6 +5,8 @@ from cocotb.runner import get_runner
 
 PROJECT_DIR = Path(__file__).resolve().parent.parent.parent
 COCOTB_DIR = PROJECT_DIR / 'sim/cocotb'
+INCLUDE_DIR = PROJECT_DIR / 'include'
+OUTPUT_DIR = COCOTB_DIR / 'output_files'
 
 
 def test_with_cocotb():
@@ -28,6 +30,9 @@ def test_with_cocotb():
 
     if hdl_toplevel_lang == "verilog":
         verilog_sources.append(COCOTB_DIR / "fpu/dut.sv")
+        verilog_sources += [
+            (INCLUDE_DIR / 'hardfloat.sv'),
+        ]
     else:
         vhdl_sources.append(PROJECT_DIR / "top.vhdl")
 
@@ -40,9 +45,17 @@ def test_with_cocotb():
         includes=verilog_includes,
         hdl_toplevel="dut",
         always=True,
+        build_dir=OUTPUT_DIR
     )
 
-    runner.test(hdl_toplevel="dut", test_module="test", waves=True, gui=True)
+    runner.test(
+        hdl_toplevel="dut",
+        test_module="testbench",
+        waves=True,
+        gui=True,
+        build_dir=OUTPUT_DIR,
+        test_dir=COCOTB_DIR/'fpu'
+    )
 
 
 if __name__ == "__main__":
